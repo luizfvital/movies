@@ -9,7 +9,7 @@ const fetchData = async (searchTerm) => {
   console.log(response.data);
 }
 
-const debounce = (callback) => {
+const debounce = (callback, delay = 500) => {
   let timeoutId;
 
   return (...args) => {
@@ -19,7 +19,7 @@ const debounce = (callback) => {
 
     timeoutId = setTimeout(() => {
       callback.apply(null, args);
-    }, 1000);
+    }, delay);
   }
 }
 
