@@ -12,18 +12,18 @@ const fetchData = async (searchTerm) => {
 const debounce = (callback) => {
   let timeoutId;
 
-  return (arg) => {
+  return (...args) => {
     if (timeoutId) {
       clearTimeout(timeoutId);
     }
 
     timeoutId = setTimeout(() => {
-      callback(arg);
+      callback.apply(null, args);
     }, 1000);
   }
 }
 
-let timeoutId;
+
 const onInput = (e) => fetchData(e.target.value);
 
 const input = document.querySelector('input');
