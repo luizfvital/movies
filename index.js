@@ -6,6 +6,10 @@ const fetchData = async (searchTerm) => {
     }
   });
 
+  if (response.data.Error) {
+    return [];
+  }
+
   return response.data.Search.map(movie => ({
       poster: movie.Poster,
       title: movie.Title,
@@ -17,7 +21,19 @@ const fetchData = async (searchTerm) => {
 }
 
 
-const onInput = (e) => fetchData(e.target.value);
+const onInput = async (e) => {
+  const movies = await fetchData(e.target.value);
+
+  for (let movie of movies) {
+    const div = document.createElement('div');
+    div.innerHTML = `
+      <img src="${movie.poster}" alt="${movie.title}"/>
+      <h2>${movie.title}<h2/>
+    `;
+
+    target.appendChild(div);
+  }
+}
 
 const input = document.querySelector('input');
 input.addEventListener('input', debounce(onInput)); 
