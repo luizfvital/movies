@@ -20,20 +20,41 @@ const fetchData = async (searchTerm) => {
   );
 }
 
+const root = document.querySelector('.autocomplete');
+root.innerHTML = `
+  <label><b>Search for a movie</b></label>
+  <input class="input" />
+  <div class="dropdown">
+    <div class="dropdown-menu">
+      <div class="dropdown-content results"></div>
+    </div>
+  </div>
+`;
+
+const input = document.querySelector('input');
+const dropdown = document.querySelector('.dropdown');
+const resultsWrapper = document.querySelector('.results');
 
 const onInput = async (e) => {
   const movies = await fetchData(e.target.value);
 
+  resultsWrapper.innerHTML = '';
+
+  dropdown.classList.add('is-active');
+
   for (let movie of movies) {
-    const div = document.createElement('div');
-    div.innerHTML = `
-      <img src="${movie.poster}" alt="${movie.title}"/>
-      <h2>${movie.title}<h2/>
+    const option = document.createElement('a');
+
+    const imgSrc = movie.poster === 'N/A' ? '' : movie.poster;
+ 
+    option.classList.add('dropdown-item');
+    option.innerHTML = `
+      <img src="${imgSrc}" alt="${movie.title}"/>
+      ${movie.title}
     `;
 
-    target.appendChild(div);
+    resultsWrapper.appendChild(option);
   }
 }
 
-const input = document.querySelector('input');
 input.addEventListener('input', debounce(onInput)); 
