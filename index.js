@@ -20,6 +20,17 @@ const fetchData = async (searchTerm) => {
   );
 }
 
+const onMovieSelected = async (id) => {
+  const response = await axios.get('http://www.omdbapi.com/', {
+    params: {
+      apikey: 'aea35f02',
+      i: id,
+    }
+  });
+
+  console.log(response.data);
+}
+
 const root = document.querySelector('.autocomplete');
 root.innerHTML = `
   <label><b>Search for a movie</b></label>
@@ -61,6 +72,8 @@ const onInput = async (e) => {
     option.addEventListener('click', e => {
       dropdown.classList.remove('is-active');
       input.value = movie.title;
+
+      onMovieSelected(movie.imdbId);
     });
 
     resultsWrapper.appendChild(option);
