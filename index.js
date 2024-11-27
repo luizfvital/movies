@@ -32,7 +32,7 @@ const onMovieSelected = async (movie) => {
   const response = await axios.get('http://www.omdbapi.com/', {
     params: {
       apikey: 'aea35f02',
-      i: movie.imdbID,
+      i: movie.imdbId,
     }
   });
 
@@ -90,8 +90,8 @@ const movieTemplate = (movieDetail) => {
 
 createAutocomplete({
   root: document.querySelector('.autocomplete'),
-  renderOption: () => renderMovieOption(movie),
-  onOptionSelected: () => onMovieSelected(movie),
+  renderOption: (movie) => renderMovieOption(movie),
+  onOptionSelected: (movie) => onMovieSelected(movie),
   inputValue: (movie) => movie.title,
-  fetchData: async () => fetchData(searchTerm),
+  fetchData: (searchTerm) => fetchData(searchTerm),
 });
